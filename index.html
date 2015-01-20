@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <title>Lesson 2: jQuery Events</title>
+  <link rel="stylesheet" type="text/css" href="day.css">
+</head>
+
+<body>
+  <h1>My Website</h1>
+
+  <button data-file="day">Day</button>
+  <button data-file="night">Night</button>
+
+  <audio controls="controls" autoplay>
+    <source src="thehealer.mp3" type="audio/mpeg" autoplay/>
+    <source src="thehealer.mp3" type="audio/ogg" autoplay/>
+    Your browser does not support the <code>audio</code> element.
+  </audio>
+
+  
+
+ <!--  <audio src="thehealer.mp3" type="audio/ogg" id="audio1" controls="controls">
+    Your browser does not support the HTML5 Audio Tag.
+  </audio> -->
+
+  <!-- <audio src="foo.ogg">
+    <track kind="captions" src="foo.en.vtt" srclang="en" label="English">
+    <track kind="captions" src="foo.sv.vtt" srclang="sv" label="Svenska">
+  </audio> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+  <script>
+    (function() {
+      var link = $('link');
+      $('button').click(function() {
+        var _this = $(this),
+            stylesheet = _this.data('file');
+
+        _this.siblings('button').removeAttr('disabled');
+        console.log(stylesheet);
+
+        link.attr('href', stylesheet+ '.css');
+        _this.attr('disabled', 'disabled');
+      })
+    })();
+  </script>
+</body>
+</html>

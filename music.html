@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Music</title>
+    <link rel="stylesheet" type="text/css" href="day.css">
+    <link href='http://fonts.googleapis.com/css?family=Londrina+Shadow' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Megrim' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Londrina+Outline' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  </head>
+
+  <h1 class="center">Jams</h1>
+
+  <body>
+    <div class="center">
+      <audio id="player" controls="controls" autoplay>
+        <!-- <source src="thehealer.mp3" type="audio/mpeg" autoplay/> -->
+        <source src="thehealer.mp3" type="audio/ogg" autoplay/>
+        Your browser does not support the <code>audio</code> element.
+      </audio>
+
+      <div id="controls">
+        <button id="back">Back</button>
+        <button id="next">Next</button>
+      </div>
+    </div>
+
+      
+
+    <ul id="playlist">
+      <li class="others">
+        <a data-src="thehealer.mp3" href="#">Erykah Badu - The Healer</a>
+      </li>
+      <li class="others">
+        <a data-src="beyond.mp3" href="#">Daft Punk - Beyond</a>
+      </li>
+      <li class="others">
+        <a data-src="thebigpayback.mp3" href="#">James Brown - The Big Payback</a>
+      </li>
+      <li>
+        <a data-src="spottieottiedopaliscious.mp3" href="#">OutKast - Spottieottiedopaliscious</a>
+      </li>
+      <li id="last">
+        <a data-src="empireants.mp3" href="#">Gorillaz - Empire Ants (Feat. Little Dragon</a>
+      </li>
+    </ul>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+    <script>
+      (function() {
+        var tracks = $('ul#playlist li a'),
+        len = tracks.length - 1,
+        player = $('#player')[0];
+
+        tracks.click(function() {
+          var link = $(this),
+          src = link.data('src'),
+          sourceEl = $('#player:first-child').attr('src', src);
+        });
+
+        var songs = ["thehealer.mp3", "beyond.mp3", "thebigpayback.mp3", "spottieottiedopaliscious.mp3", "empireants.mp3"];
+        var songsLen = songs.length;
+
+        var currentSrc = $('#player').children()[0].getAttribute('src'),
+            nextButton = $('button#next'),
+            currentIndex = songs.indexOf(currentSrc),
+            backButton = $('button#back');
+
+        nextButton.click(function() {
+          
+          if (currentIndex > (songsLen - 1)) {
+            nextButton.attr('disabled', 'disabled')
+            // currentIndex = 0;
+            // $('#player:first-child').attr('src', songs[currentIndex]);
+          } else {
+            ++currentIndex;
+            backButton.removeAttr('disabled');
+            $('#player:first-child').attr('src', songs[currentIndex]);
+          };
+        });
+
+        backButton.click(function() {
+          
+          if (currentIndex < 1) {
+            --currentIndex;
+            backButton.attr('disabled', 'disabled');
+          } else {
+            --currentIndex;
+            nextButton.removeAttr('disabled');
+            $('#player:first-child').attr('src', songs[currentIndex]);
+          }
+        })
+
+        player.addEventListener('ended', function() {
+          // alert("Song has ended");
+          if (currentIndex < (songsLen - 1)) {
+            ++currentIndex;
+            // backButton.removeAttr('disabled');
+            $('#player:first-child').attr('src', songs[currentIndex]);
+          }
+        });
+
+      })();
+    </script>
+  </body>
+</html>
