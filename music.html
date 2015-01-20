@@ -52,24 +52,25 @@
       (function() {
         var tracks = $('ul#playlist li a'),
         len = tracks.length - 1,
-        player = $('#player')[0];
+        player = $('#player')[0],
+        songs = ["thehealer.mp3", "beyond.mp3", "thebigpayback.mp3", "spottieottiedopaliscious.mp3", "empireants.mp3"],
+        songsLen = songs.length;
 
+        // plays clicked link
         tracks.click(function() {
           var link = $(this),
           src = link.data('src'),
           sourceEl = $('#player:first-child').attr('src', src);
         });
 
-        var songs = ["thehealer.mp3", "beyond.mp3", "thebigpayback.mp3", "spottieottiedopaliscious.mp3", "empireants.mp3"];
-        var songsLen = songs.length;
-
+        // use buttons to skip to next/back tracks
         var currentSrc = $('#player').children()[0].getAttribute('src'),
             nextButton = $('button#next'),
             currentIndex = songs.indexOf(currentSrc),
             backButton = $('button#back');
 
+        // skip to next track
         nextButton.click(function() {
-          
           if (currentIndex > (songsLen - 1)) {
             nextButton.attr('disabled', 'disabled')
             // currentIndex = 0;
@@ -81,8 +82,8 @@
           };
         });
 
+        // go back a track
         backButton.click(function() {
-          
           if (currentIndex < 1) {
             --currentIndex;
             backButton.attr('disabled', 'disabled');
@@ -93,11 +94,10 @@
           }
         })
 
+        // when song ends plays next track
         player.addEventListener('ended', function() {
-          // alert("Song has ended");
           if (currentIndex < (songsLen - 1)) {
             ++currentIndex;
-            // backButton.removeAttr('disabled');
             $('#player:first-child').attr('src', songs[currentIndex]);
           }
         });
