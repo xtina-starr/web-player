@@ -13,12 +13,14 @@
   <h1 class="center">Jams</h1>
 
   <body>
-    <div class="center">
+    <div class="center" id="audio">
       <audio id="player" controls="controls" autoplay>
         <!-- <source src="thehealer.mp3" type="audio/mpeg" autoplay/> -->
         <source src="thehealer.mp3" type="audio/ogg" autoplay/>
         Your browser does not support the <code>audio</code> element.
       </audio>
+
+      <p class="playing">Erykah Badu - The Healer</p>
 
       <div id="controls">
         <button id="back">Back</button>
@@ -42,7 +44,7 @@
         <a data-src="spottieottiedopaliscious.mp3" href="#">OutKast - Spottieottiedopaliscious</a>
       </li>
       <li id="last">
-        <a data-src="empireants.mp3" href="#">Gorillaz - Empire Ants (Feat. Little Dragon</a>
+        <a data-src="empireants.mp3" href="#">Gorillaz - Empire Ants (Feat. Little Dragon)</a>
       </li>
     </ul>
 
@@ -53,14 +55,38 @@
         var tracks = $('ul#playlist li a'),
         len = tracks.length - 1,
         player = $('#player')[0],
-        songs = ["thehealer.mp3", "beyond.mp3", "thebigpayback.mp3", "spottieottiedopaliscious.mp3", "empireants.mp3"],
-        songsLen = songs.length;
+        playlist = $('#playlist'),
+        songs = [],
+        numOfTracks = tracks.length;
+
+        // for (i=0; i<numOfTracks; i++) {
+        //   songs.push(tracks[i].getAttribute('data-src'));
+        // }
+
+        tracks.each(function(index, track) {
+          songs.push(track.getAttribute('data-src'));
+        });
+
+        // var linkTags = playlist.find('a');
+
+        // linkTags.each(function(index,track) {
+        //   songs.push(track.getAttribute('data-src'));
+        // });
 
         // plays clicked link
         tracks.click(function() {
           var link = $(this),
+          // trackName = $('audio p.playing');
           src = link.data('src'),
           sourceEl = $('#player:first-child').attr('src', src);
+
+          if ($('#audio').find('p.playing').length > 0) {
+            $('#audio').find('p.playing').text(link.text());
+          } 
+          // else {
+          //   $('<p class=playing></p>').text(link.text())
+          //   .insertAfter('audio:first');
+          // }
         });
 
         // use buttons to skip to next/back tracks
@@ -71,12 +97,15 @@
 
         // skip to next track
         nextButton.click(function() {
-          if (currentIndex > (songsLen - 1)) {
+          if (currentIndex >= (numOfTracks - 1)) {
+            alert(currentIndex);
             nextButton.attr('disabled', 'disabled')
-            // currentIndex = 0;
+            //currentIndex = 0;
             // $('#player:first-child').attr('src', songs[currentIndex]);
           } else {
+            console.log(currentIndex);
             ++currentIndex;
+            console.log(currentIndex);
             backButton.removeAttr('disabled');
             $('#player:first-child').attr('src', songs[currentIndex]);
           };
@@ -84,11 +113,12 @@
 
         // go back a track
         backButton.click(function() {
-          if (currentIndex < 1) {
-            --currentIndex;
+          // if (currentIndex < 1) {
+          if (currentIndex == 0) {
+            // --currentIndex;
             backButton.attr('disabled', 'disabled');
           } else {
-            --currentIndex;
+            currentIndex = currentIndex - 1;
             nextButton.removeAttr('disabled');
             $('#player:first-child').attr('src', songs[currentIndex]);
           }
@@ -96,7 +126,7 @@
 
         // when song ends plays next track
         player.addEventListener('ended', function() {
-          if (currentIndex < (songsLen - 1)) {
+          if (currentIndex < (numOfTracks - 1)) {
             ++currentIndex;
             $('#player:first-child').attr('src', songs[currentIndex]);
           }
