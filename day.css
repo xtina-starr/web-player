@@ -54,7 +54,7 @@ body {
 
 h1 {
   font-size: 130px;
-  margin-top: 80px;
+  margin-top: 65px;
   margin-bottom: 60px;
   /*font-family: 'Londrina Shadow', cursive;*/
   /*font-family: 'Megrim', cursive;*/
@@ -70,9 +70,17 @@ h1 {
 }
 
 audio {
-  margin-bottom: 45px;
+  margin-bottom: 25px;
 }
 
+/*p.playing {
+  margin: 25px;
+}
+*/
+
+div#controls {
+  margin-top: 18px;
+}
 ul {
   width: 45%;
   height: 90%;
