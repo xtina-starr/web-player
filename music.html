@@ -28,8 +28,6 @@
       </div>
     </div>
 
-      
-
     <ul id="playlist">
       <li class="others">
         <a data-src="thehealer.mp3" href="#">Erykah Badu - The Healer</a>
@@ -52,41 +50,44 @@
 
     <script>
       (function() {
+        var geolocation = null;
+ 
+        if (window.navigator && window.navigator.geolocation) {
+          geolocation = window.navigator.geolocation;
+        }
+
+        if (geolocation) {
+          geolocation.getCurrentPosition(function(position) {
+            alert("Timestamp: " + position.timestamp);
+            alert("Longitude " + position.coords.latitude);
+            alert("Latitude " + position.coords.longitude);
+          });
+        } else {
+          alert("There probably was an error or geolocation isn't supported")
+        }
+
         var tracks = $('ul#playlist li a'),
         len = tracks.length - 1,
         player = $('#player')[0],
         playlist = $('#playlist'),
         songs = [],
+        songNames = [],
         numOfTracks = tracks.length;
-
-        // for (i=0; i<numOfTracks; i++) {
-        //   songs.push(tracks[i].getAttribute('data-src'));
-        // }
 
         tracks.each(function(index, track) {
           songs.push(track.getAttribute('data-src'));
+          songNames.push(track.text);
         });
-
-        // var linkTags = playlist.find('a');
-
-        // linkTags.each(function(index,track) {
-        //   songs.push(track.getAttribute('data-src'));
-        // });
 
         // plays clicked link
         tracks.click(function() {
           var link = $(this),
-          // trackName = $('audio p.playing');
           src = link.data('src'),
           sourceEl = $('#player:first-child').attr('src', src);
 
           if ($('#audio').find('p.playing').length > 0) {
             $('#audio').find('p.playing').text(link.text());
           } 
-          // else {
-          //   $('<p class=playing></p>').text(link.text())
-          //   .insertAfter('audio:first');
-          // }
         });
 
         // use buttons to skip to next/back tracks
@@ -99,15 +100,14 @@
         nextButton.click(function() {
           if (currentIndex >= (numOfTracks - 1)) {
             alert(currentIndex);
-            nextButton.attr('disabled', 'disabled')
-            //currentIndex = 0;
-            // $('#player:first-child').attr('src', songs[currentIndex]);
+            nextButton.attr('disabled', 'disabled');
           } else {
             console.log(currentIndex);
             ++currentIndex;
             console.log(currentIndex);
             backButton.removeAttr('disabled');
             $('#player:first-child').attr('src', songs[currentIndex]);
+            $('#audio').find('p.playing').text(songNames[currentIndex]);
           };
         });
 
@@ -121,6 +121,7 @@
             currentIndex = currentIndex - 1;
             nextButton.removeAttr('disabled');
             $('#player:first-child').attr('src', songs[currentIndex]);
+            $('#audio').find('p.playing').text(songNames[currentIndex]);
           }
         })
 
@@ -129,6 +130,7 @@
           if (currentIndex < (numOfTracks - 1)) {
             ++currentIndex;
             $('#player:first-child').attr('src', songs[currentIndex]);
+            $('#audio').find('p.playing').text(songNames[currentIndex]);
           }
         });
 
