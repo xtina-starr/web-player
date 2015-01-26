@@ -50,12 +50,15 @@
 
     <script>
       (function() {
+        // geolocation
         var geolocation = null;
  
+        // check if browser supports geolocation
         if (window.navigator && window.navigator.geolocation) {
           geolocation = window.navigator.geolocation;
         }
 
+        // get user's position (timestamp, lat, long)
         if (geolocation) {
           geolocation.getCurrentPosition(function(position) {
             alert("Timestamp: " + position.timestamp);
@@ -98,34 +101,29 @@
 
         // skip to next track
         nextButton.click(function() {
+          ++currentIndex;
+          backButton.removeAttr('disabled');
+          $('#player:first-child').attr('src', songs[currentIndex]);
+          $('#audio').find('p.playing').text(songNames[currentIndex]);
+
           if (currentIndex >= (numOfTracks - 1)) {
-            alert(currentIndex);
             nextButton.attr('disabled', 'disabled');
-          } else {
-            console.log(currentIndex);
-            ++currentIndex;
-            console.log(currentIndex);
-            backButton.removeAttr('disabled');
-            $('#player:first-child').attr('src', songs[currentIndex]);
-            $('#audio').find('p.playing').text(songNames[currentIndex]);
-          };
+          }
         });
 
         // go back a track
         backButton.click(function() {
-          // if (currentIndex < 1) {
-          if (currentIndex == 0) {
-            // --currentIndex;
+          --currentIndex
+          nextButton.removeAttr('disabled');
+          $('#player:first-child').attr('src', songs[currentIndex]);
+          $('#audio').find('p.playing').text(songNames[currentIndex]);
+
+          if (currentIndex < 1) {
             backButton.attr('disabled', 'disabled');
-          } else {
-            currentIndex = currentIndex - 1;
-            nextButton.removeAttr('disabled');
-            $('#player:first-child').attr('src', songs[currentIndex]);
-            $('#audio').find('p.playing').text(songNames[currentIndex]);
           }
         })
 
-        // when song ends plays next track
+        // play next track when song ends
         player.addEventListener('ended', function() {
           if (currentIndex < (numOfTracks - 1)) {
             ++currentIndex;
