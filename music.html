@@ -3,9 +3,6 @@
   <head>
     <title>Music</title>
     <link rel="stylesheet" type="text/css" href="day.css">
-    <link href='http://fonts.googleapis.com/css?family=Londrina+Shadow' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Megrim' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Londrina+Outline' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
   </head>
@@ -131,6 +128,22 @@
             $('#audio').find('p.playing').text(songNames[currentIndex]);
           }
         });
+
+        // // ajax
+        // $('a#lyrics').on('click', function() {
+        //   $.ajax({
+        //     url:'',
+        //     crossDomain: true,
+        //     dataType: 'jsonp',
+        //     type: 'GET',
+        //     success: function(data) {
+        //       console.log(data);
+        //     },
+        //     error: function(err) {
+        //       console.log("Error: " data);
+        //     }
+        //   });
+        // })
 
       })();
     </script>
