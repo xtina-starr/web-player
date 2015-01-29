@@ -13,7 +13,7 @@
     <div class="center" id="audio">
       <audio id="player" controls="controls" autoplay>
         <!-- <source src="thehealer.mp3" type="audio/mpeg" autoplay/> -->
-        <source src="thehealer.mp3" type="audio/ogg" autoplay/>
+        <source src="songs/thehealer.mp3" type="audio/ogg" autoplay/>
         Your browser does not support the <code>audio</code> element.
       </audio>
 
@@ -27,19 +27,19 @@
 
     <ul id="playlist">
       <li class="others">
-        <a data-src="thehealer.mp3" href="#">Erykah Badu - The Healer</a>
+        <a data-src="songs/thehealer.mp3" href="#">Erykah Badu - The Healer</a>
       </li>
       <li class="others">
-        <a data-src="beyond.mp3" href="#">Daft Punk - Beyond</a>
+        <a data-src="songs/beyond.mp3" href="#">Daft Punk - Beyond</a>
       </li>
       <li class="others">
-        <a data-src="thebigpayback.mp3" href="#">James Brown - The Big Payback</a>
+        <a data-src="songs/thebigpayback.mp3" href="#">James Brown - The Big Payback</a>
       </li>
       <li>
-        <a data-src="spottieottiedopaliscious.mp3" href="#">OutKast - Spottieottiedopaliscious</a>
+        <a data-src="songs/spottieottiedopaliscious.mp3" href="#">OutKast - Spottieottiedopaliscious</a>
       </li>
       <li id="last">
-        <a data-src="empireants.mp3" href="#">Gorillaz - Empire Ants (Feat. Little Dragon)</a>
+        <a data-src="songs/empireants.mp3" href="#">Gorillaz - Empire Ants (Feat. Little Dragon)</a>
       </li>
     </ul>
 
@@ -48,7 +48,9 @@
     <script>
       (function() {
         // geolocation
-        var geolocation = null;
+        var geolocation = null,
+            latitude,
+            longitude;
  
         // check if browser supports geolocation
         if (window.navigator && window.navigator.geolocation) {
@@ -60,7 +62,9 @@
           geolocation.getCurrentPosition(function(position) {
             alert("Timestamp: " + position.timestamp);
             alert("Longitude " + position.coords.latitude);
+            latitude = position.coords.latitude;
             alert("Latitude " + position.coords.longitude);
+            longitude = position.coords.longitude;
           });
         } else {
           alert("There probably was an error or geolocation isn't supported")
@@ -129,21 +133,28 @@
           }
         });
 
-        // // ajax
-        // $('a#lyrics').on('click', function() {
-        //   $.ajax({
-        //     url:'',
-        //     crossDomain: true,
-        //     dataType: 'jsonp',
-        //     type: 'GET',
-        //     success: function(data) {
-        //       console.log(data);
-        //     },
-        //     error: function(err) {
-        //       console.log("Error: " data);
-        //     }
-        //   });
-        // })
+        // ajax
+        $('h1').on('click', function(e) {
+          e.preventDefault();
+          alert('Event was fired.');
+          $.ajax({
+            url:"https://montanaflynn-geocoder.p.mashape.com/reverse?latitude=" +latitude + "&" + "longitude=" + longitude,
+            dataType: 'json',
+            type: 'GET',
+            header: {
+              "X-Mashape-Key": "skgD9hBI4dmshOSm6czRUaM0SrCrp1xpamWjsnD2HT6KADh3Gz"
+
+            },
+            contentType: "application/json",
+            success: function(data) {
+              console.log(data);
+            },
+            error: function(err) {
+              console.log("Error: " + err);
+              debugger
+            }
+          });
+        });
 
       })();
     </script>
